@@ -7,6 +7,12 @@ import {
   getNewCodeRange,
 } from '~me/utils/ultimateCode'
 import gameStore from '~me/stores/gameStore'
+import InputNumber from 'primevue/inputnumber'
+import Button from 'primevue/button'
+
+const props = withDefaults(defineProps<{ isControlMode?: boolean }>(), {
+  isControlMode: false,
+})
 
 const initUltimateCode = () => {
   gameStore.value.code = getRandomCode(ULTIMATE_CODE_RANGE_MIN, ULTIMATE_CODE_RANGE_MAX)
@@ -36,6 +42,7 @@ const clearNewCode = () => {
 }
 
 onMounted(() => {
+  if (props.isControlMode) return
   initUltimateCode()
 })
 </script>
@@ -43,8 +50,22 @@ onMounted(() => {
 <template>
   <div class="game">
     <div class="game__container">
+      <div v-if="props.isControlMode" class="game__mode">Control Mode</div>
       <div class="game__codeRange">
         <span>{{ gameStore.range[0] }}</span> ~ <span>{{ gameStore.range[1] }}</span>
+      </div>
+      <div v-if="props.isControlMode">
+        <InputNumber
+          class="game__input"
+          v-model="gameStore.newCode"
+          inputId="minmax"
+          :min="gameStore.range[0]"
+          :max="gameStore.range[1]"
+          fluid
+        />
+        <div>
+          <Button class="game__sendButton" label="Send" @click="sendNewCode" />
+        </div>
       </div>
     </div>
   </div>
@@ -62,12 +83,27 @@ onMounted(() => {
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 1rem;
+    text-align: center;
+  }
+
+  &__mode {
+    font-size: 4rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
   }
 
   &__codeRange {
     font-size: 12rem;
     font-weight: bold;
-    text-align: center;
+  }
+
+  &__input,
+  &__sendButton {
+    zoom: 5;
+  }
+
+  &__sendButton {
+    margin-top: 1rem;
   }
 }
 </style>

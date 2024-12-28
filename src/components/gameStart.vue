@@ -2,20 +2,20 @@
 import Button from 'primevue/button'
 
 const emit = defineEmits<{
-  start: []
+  start: [isControlMode: boolean]
 }>()
 
-const clickStartGame = () => {
-  emit('start')
+const clickStartGame = (isControlMode: boolean) => {
+  emit('start', isControlMode)
 }
 </script>
 
 <template>
   <div class="gs">
     <div class="gs__container">
-      <img class="gs__bombImg" src="@/assets/imgs/bomb.png" />
+      <img class="gs__bombImg" src="@/assets/imgs/bomb.png" @dblclick="clickStartGame(true)" />
       <h1 class="gs__title">Ultimate Code</h1>
-      <Button class="gs__startButton" label="Game Start" @click="clickStartGame" />
+      <Button class="gs__startButton" label="Game Start" @click="clickStartGame(false)" />
     </div>
   </div>
 </template>
