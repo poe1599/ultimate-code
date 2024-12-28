@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import GameStart from '~me/components/gameStart.vue'
+import ultimateCode from '~me/components/ultimateCode.vue'
 </script>
 
 <template>
   <div class="layout">
     <GameStart />
+    <ultimateCode />
   </div>
 </template>
 
