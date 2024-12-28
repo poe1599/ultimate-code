@@ -1,38 +1,38 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import {
   ULTIMATE_CODE_RANGE_MIN,
   ULTIMATE_CODE_RANGE_MAX,
   getRandomCode,
   getNewCodeRange,
 } from '~me/utils/ultimateCode'
-
-const code = ref<number>(0)
-const range = ref<[number, number]>([ULTIMATE_CODE_RANGE_MIN, ULTIMATE_CODE_RANGE_MAX])
-
-const newCode = ref<number | null>(null)
+import gameStore from '~me/stores/gameStore'
 
 const initUltimateCode = () => {
-  code.value = getRandomCode(ULTIMATE_CODE_RANGE_MIN, ULTIMATE_CODE_RANGE_MAX)
-  range.value = [ULTIMATE_CODE_RANGE_MIN, ULTIMATE_CODE_RANGE_MAX]
+  gameStore.value.code = getRandomCode(ULTIMATE_CODE_RANGE_MIN, ULTIMATE_CODE_RANGE_MAX)
+  gameStore.value.range = [ULTIMATE_CODE_RANGE_MIN, ULTIMATE_CODE_RANGE_MAX]
   clearNewCode()
 }
 
 const sendNewCode = () => {
-  if (newCode.value === null) return
-  if (newCode.value === code.value) {
+  if (gameStore.value.newCode === null) return
+  if (gameStore.value.newCode === gameStore.value.code) {
     alert('Correct!')
     clearNewCode()
     initUltimateCode()
     return
   }
 
-  range.value = getNewCodeRange(code.value, range.value, newCode.value)
+  gameStore.value.range = getNewCodeRange(
+    gameStore.value.code,
+    gameStore.value.range,
+    gameStore.value.newCode,
+  )
   clearNewCode()
 }
 
 const clearNewCode = () => {
-  newCode.value = null
+  gameStore.value.newCode = null
 }
 
 onMounted(() => {
@@ -41,14 +41,33 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
-    <div>
-      <span>{{ range[0] }}</span> ~ <span>{{ range[1] }}</span>
+  <div class="game">
+    <div class="game__container">
+      <div class="game__codeRange">
+        <span>{{ gameStore.range[0] }}</span> ~ <span>{{ gameStore.range[1] }}</span>
+      </div>
     </div>
-    <div>{{ newCode }}</div>
-    <input type="number" :min="range[0]" :max="range[1]" v-model="newCode" />
-    <button @click="sendNewCode">Send</button>
   </div>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.game {
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  &__container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 1rem;
+  }
+
+  &__codeRange {
+    font-size: 12rem;
+    font-weight: bold;
+    text-align: center;
+  }
+}
+</style>
