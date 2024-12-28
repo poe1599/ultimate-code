@@ -7,7 +7,10 @@ const app = createApp(App);
 
 app.use(PrimeVue, {
   theme: {
-      preset: preset
+      preset: preset,
+      options: {
+        darkModeSelector: '.app-dark',
+    }
   }
 });
 
