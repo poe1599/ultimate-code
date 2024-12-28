@@ -1,12 +1,23 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import GameStart from '~me/components/gameStart.vue'
-import ultimateCode from '~me/components/ultimateCode.vue'
+import UltimateCode from '~me/components/ultimateCode.vue'
+
+/**
+ * 01: Game Start
+ * 02: Ultimate Code
+ */
+const pageCode = ref<'01' | '02'>('01')
+
+const startGame = () => {
+  pageCode.value = '02'
+}
 </script>
 
 <template>
   <div class="layout">
-    <GameStart />
-    <ultimateCode />
+    <GameStart v-if="pageCode === '01'" @start="startGame" />
+    <UltimateCode v-else-if="pageCode === '02'" />
   </div>
 </template>
 

@@ -1,5 +1,13 @@
 <script setup lang="ts">
 import Button from 'primevue/button'
+
+const emit = defineEmits<{
+  start: []
+}>()
+
+const clickStartGame = () => {
+  emit('start')
+}
 </script>
 
 <template>
@@ -7,7 +15,7 @@ import Button from 'primevue/button'
     <div class="gs__container">
       <img class="gs__bombImg" src="@/assets/imgs/bomb.png" />
       <h1 class="gs__title">Ultimate Code</h1>
-      <Button class="gs__startButton" label="Game Start" />
+      <Button class="gs__startButton" label="Game Start" @click="clickStartGame" />
     </div>
   </div>
 </template>
