@@ -14,8 +14,8 @@ const pageCode = ref<'01' | '02' | '03'>('01')
 const isControlMode = ref(false)
 
 const toSetPlayers = (e: boolean) => {
-  pageCode.value = '02'
   isControlMode.value = e
+  pageCode.value = isControlMode.value ? '03' : '02'
 }
 
 const toStartGame = () => {

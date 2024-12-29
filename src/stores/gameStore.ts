@@ -19,8 +19,8 @@ interface GameStoreType {
 export default useStorage<GameStoreType>('gameStore', { 
   code: 0,
   range: [0,0],
-  newCode: 0,
-  gameMode: 'normal',
+  newCode: null,
+  gameMode: 'single-elimination',
   players: [],
   survivePlayers: [],
   playerColors: [
