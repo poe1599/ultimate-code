@@ -82,46 +82,48 @@ const gameModeList = [
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    zoom: var(--game-zoom);
   }
 
   &__bombImg {
     margin: 0 auto;
-    width: 30rem;
     display: block;
+    width: 24rem;
   }
 
   &__title {
-    font-size: 6rem;
     text-align: center;
-    margin: 1rem auto 0;
+    margin: 0 auto;
+    font-size: 6rem;
   }
 
   &__startButton {
-    margin: 1rem auto 0;
-    zoom: 1.5;
+    font-weight: bold;
   }
 
   &__configButton {
     position: absolute;
     top: 1rem;
     right: 1rem;
-    zoom: 1.5;
+    zoom: var(--game-zoom);
   }
 
   &__configTitle {
-    font-size: 4rem;
     font-weight: bold;
+    font-size: 2rem;
     margin: 0;
+    zoom: var(--game-zoom);
   }
 }
 
 .gc {
+  zoom: var(--game-zoom);
+
   &__li {
     display: flex;
     align-items: center;
     gap: 1rem;
     margin: 0.5rem 0;
-    zoom: 2;
   }
 }
 </style>

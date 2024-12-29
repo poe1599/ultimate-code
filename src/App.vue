@@ -25,9 +25,14 @@ const startGame = (e: boolean) => {
 </template>
 
 <style lang="css" src="~me/css/normalize.css"></style>
-<style lang="scss" scoped>
+<style lang="scss">
 .layout {
   width: 100%;
   height: 100vh;
+  --p-button-label-font-weight: bold;
+}
+
+:root {
+  --game-zoom: 1.5;
 }
 </style>

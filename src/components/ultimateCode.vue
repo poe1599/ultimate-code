@@ -82,24 +82,26 @@ onMounted(() => {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 1rem;
     text-align: center;
+    zoom: var(--game-zoom);
   }
 
   &__mode {
     font-size: 4rem;
     font-weight: bold;
-    margin-bottom: 1rem;
   }
 
   &__codeRange {
-    font-size: 12rem;
+    font-size: 10rem;
     font-weight: bold;
   }
 
-  &__input,
-  &__sendButton {
-    zoom: 5;
+  &__input {
+    :deep(.p-inputtext) {
+      text-align: center;
+      font-weight: bold;
+      font-size: 4rem;
+    }
   }
 
   &__sendButton {
