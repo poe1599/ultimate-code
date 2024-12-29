@@ -2,25 +2,32 @@
 import { ref } from 'vue'
 import GameStart from '~me/components/gameStart.vue'
 import UltimateCode from '~me/components/ultimateCode.vue'
+import GamePlayer from '~me/components/gamePlayer.vue'
 
 /**
  * 01: Game Start
- * 02: Ultimate Code
+ * 02: Game Player
+ * 03: Ultimate Code
  */
-const pageCode = ref<'01' | '02'>('01')
+const pageCode = ref<'01' | '02' | '03'>('01')
 
 const isControlMode = ref(false)
 
-const startGame = (e: boolean) => {
+const toSetPlayers = (e: boolean) => {
   pageCode.value = '02'
   isControlMode.value = e
+}
+
+const toStartGame = () => {
+  pageCode.value = '03'
 }
 </script>
 
 <template>
   <div class="layout">
-    <GameStart v-if="pageCode === '01'" @start="startGame" />
-    <UltimateCode v-else-if="pageCode === '02'" :isControlMode="isControlMode" />
+    <GameStart v-if="pageCode === '01'" @start="toSetPlayers" />
+    <GamePlayer v-else-if="pageCode === '02'" @next="toStartGame" />
+    <UltimateCode v-else-if="pageCode === '03'" :isControlMode="isControlMode" />
   </div>
 </template>
 
