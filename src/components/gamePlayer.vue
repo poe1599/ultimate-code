@@ -107,6 +107,7 @@ const clickContinue = () => {
       gap: 0.5rem;
       font-size: 1.5rem;
       font-weight: bold;
+      white-space: nowrap;
     }
   }
 

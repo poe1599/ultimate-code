@@ -21,13 +21,17 @@ const toSetPlayers = (e: boolean) => {
 const toStartGame = () => {
   pageCode.value = '03'
 }
+
+const toInit = () => {
+  pageCode.value = '01'
+}
 </script>
 
 <template>
   <div class="layout">
     <GameStart v-if="pageCode === '01'" @start="toSetPlayers" />
     <GamePlayer v-else-if="pageCode === '02'" @next="toStartGame" />
-    <UltimateCode v-else-if="pageCode === '03'" :isControlMode="isControlMode" />
+    <UltimateCode v-else-if="pageCode === '03'" :isControlMode="isControlMode" @end="toInit" />
   </div>
 </template>
 

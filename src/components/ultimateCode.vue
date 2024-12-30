@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, computed } from 'vue'
+import { onMounted, computed, ref } from 'vue'
 import {
   ULTIMATE_CODE_RANGE_MIN,
   ULTIMATE_CODE_RANGE_MAX,
@@ -10,10 +10,19 @@ import gameStore from '~me/stores/gameStore'
 import InputNumber from 'primevue/inputnumber'
 import Button from 'primevue/button'
 import Avatar from 'primevue/avatar'
+import Dialog from 'primevue/dialog'
 
 const props = withDefaults(defineProps<{ isControlMode?: boolean }>(), {
   isControlMode: false,
 })
+
+const emit = defineEmits<{
+  end: []
+}>()
+
+const isDialogOpen = ref(false)
+const dialogMode = ref<'win' | 'lose'>('win')
+const dialogCallback = ref<Function>()
 
 const currentSurvivePlayers = computed(() =>
   gameStore.value.players
@@ -78,17 +87,40 @@ const switchToNextPlayer = () => {
 const whenCodeCorrect = () => {
   if (gameStore.value.newCode !== gameStore.value.code) return
   if (gameStore.value.gameMode === 'single-elimination') singleEliminationEnd()
-  else if (gameStore.value.gameMode === 'normal') true
+  else if (gameStore.value.gameMode === 'normal') normalEnd()
 }
 
-const singleEliminationEnd = () => {
-  alert(`${gameStore.value.survivePlayers[0].name} You Lose!`)
+const singleEliminationEnd = async () => {
+  dialogMode.value = 'lose'
+  await openDialog()
+
   gameStore.value.survivePlayers.shift()
-  initUltimateCode()
 
   if (gameStore.value.survivePlayers.length === 1) {
-    alert(`${gameStore.value.survivePlayers[0].name} You Win!`)
+    dialogMode.value = 'win'
+    await openDialog()
+    emit('end')
   }
+
+  initUltimateCode()
+}
+
+const normalEnd = async () => {
+  dialogMode.value = 'win'
+  await openDialog()
+  emit('end')
+}
+
+const openDialog = async () => {
+  isDialogOpen.value = true
+  await new Promise((resolve) => {
+    dialogCallback.value = resolve
+  })
+}
+
+const closeDialog = () => {
+  if (!dialogCallback.value) return
+  dialogCallback.value()
 }
 </script>
 
@@ -119,6 +151,26 @@ const singleEliminationEnd = () => {
         </div>
       </div>
     </div>
+
+    <Dialog
+      v-model:visible="isDialogOpen"
+      modal
+      :closable="false"
+      dismissableMask
+      :style="{ width: '25rem' }"
+      @hide="closeDialog"
+    >
+      <div class="D-dialog">
+        <h2>
+          {{ `${gameStore.survivePlayers[0].name}` }}
+          <br />
+          <span>
+            <template v-if="dialogMode === 'win'">You Win !</template>
+            <template v-else-if="dialogMode === 'lose'">You Lose !</template>
+          </span>
+        </h2>
+      </div>
+    </Dialog>
   </div>
 </template>
 
@@ -164,6 +216,7 @@ const singleEliminationEnd = () => {
       opacity: 0.3;
       zoom: 0.8;
       transition: all 0.3s;
+      white-space: nowrap;
     }
 
     li[data-is-play='true'] {
@@ -184,6 +237,15 @@ const singleEliminationEnd = () => {
 
   &__sendButton {
     margin-top: 1rem;
+  }
+}
+
+.D-dialog {
+  text-align: center;
+
+  h2 {
+    font-size: 4rem;
+    font-weight: bold;
   }
 }
 </style>
