@@ -25,6 +25,12 @@ const visibleMin = ref({ number: ULTIMATE_CODE_RANGE_MIN })
 const visibleMax = ref({ number: ULTIMATE_CODE_RANGE_MAX })
 const durationSec = 1
 
+const fixValue = (value: number) => {
+  const n = value.toFixed(0)
+  const defaultDig = 3
+  return n.length < defaultDig ? '0'.repeat(defaultDig - n.length) + n : n
+}
+
 watch(
   () => gameStore.value.range,
   ([min, max]) => {
@@ -152,8 +158,8 @@ const closeDialog = () => {
   <div class="game">
     <div class="game__container">
       <div class="game__codeRange">
-        <span>{{ visibleMin.number.toFixed(0) }}</span> ~
-        <span>{{ visibleMax.number.toFixed(0) }}</span>
+        <span>{{ fixValue(visibleMin.number) }}</span> ~
+        <span>{{ fixValue(visibleMax.number) }}</span>
       </div>
       <div></div>
       <ul class="game__playerList">
@@ -172,7 +178,12 @@ const closeDialog = () => {
           fluid
         />
         <div v-if="props.isControlMode">
-          <Button class="game__sendButton" label="Send" @click="sendNewCode" />
+          <Button
+            class="game__sendButton"
+            variant="outlined"
+            label="送出密碼"
+            @click="sendNewCode"
+          />
         </div>
       </div>
     </div>
@@ -222,6 +233,7 @@ const closeDialog = () => {
   &__codeRange {
     font-size: 10rem;
     font-weight: bold;
+    white-space: nowrap;
   }
 
   &__playerList {
@@ -246,7 +258,7 @@ const closeDialog = () => {
 
     li[data-is-play='true'] {
       opacity: 1;
-      zoom: 1.2;
+      zoom: 1.4;
     }
   }
 
