@@ -182,14 +182,14 @@ const closeDialog = () => {
       modal
       :closable="false"
       dismissableMask
-      :style="{ width: '25rem' }"
+      :style="{ width: '42rem' }"
       @hide="closeDialog"
     >
-      <div class="D-dialog">
+      <div class="D-dialog" :class="{ [`D-dialog--${dialogMode}`]: true }">
         <h2>
           {{ `${gameStore.survivePlayers[0].name}` }}
           <br />
-          <span>
+          <span class="D-dialog__result">
             <template v-if="dialogMode === 'win'">You Win !</template>
             <template v-else-if="dialogMode === 'lose'">You Lose !</template>
           </span>
@@ -271,6 +271,14 @@ const closeDialog = () => {
   h2 {
     font-size: 4rem;
     font-weight: bold;
+  }
+
+  &--win &__result {
+    color: var(--p-button-success-background);
+  }
+
+  &--lose &__result {
+    color: var(--p-button-danger-background);
   }
 }
 </style>
