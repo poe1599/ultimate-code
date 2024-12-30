@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, computed, ref } from 'vue'
+import { onMounted, computed, ref, watch } from 'vue'
 import {
   ULTIMATE_CODE_RANGE_MIN,
   ULTIMATE_CODE_RANGE_MAX,
@@ -11,6 +11,7 @@ import InputNumber from 'primevue/inputnumber'
 import Button from 'primevue/button'
 import Avatar from 'primevue/avatar'
 import Dialog from 'primevue/dialog'
+import gsap from 'gsap'
 
 const props = withDefaults(defineProps<{ isControlMode?: boolean }>(), {
   isControlMode: false,
@@ -19,6 +20,19 @@ const props = withDefaults(defineProps<{ isControlMode?: boolean }>(), {
 const emit = defineEmits<{
   end: []
 }>()
+
+const visibleMin = ref({ number: ULTIMATE_CODE_RANGE_MIN })
+const visibleMax = ref({ number: ULTIMATE_CODE_RANGE_MAX })
+const durationSec = 1
+
+watch(
+  () => gameStore.value.range,
+  ([min, max]) => {
+    gsap.to(visibleMin.value, { duration: durationSec, number: min })
+    gsap.to(visibleMax.value, { duration: durationSec, number: max })
+  },
+  { immediate: true, deep: true },
+)
 
 const isDialogOpen = ref(false)
 const dialogMode = ref<'win' | 'lose'>('win')
@@ -39,18 +53,14 @@ const initUltimateCode = () => {
   clearNewCode()
 }
 
-const sendNewCode = () => {
+const sendNewCode = async () => {
   if (gameStore.value.newCode === null) return
   const min = gameStore.value.range[0]
   const max = gameStore.value.range[1]
   const newCode = Number(gameStore.value.newCode)
   if (newCode <= min || newCode >= max) return
 
-  gameStore.value.range = getNewCodeRange(
-    gameStore.value.code,
-    gameStore.value.range,
-    gameStore.value.newCode,
-  )
+  await changeRange()
 
   if (gameStore.value.newCode !== gameStore.value.code) {
     switchToNextPlayer()
@@ -59,6 +69,20 @@ const sendNewCode = () => {
   }
 
   chanel.postMessage('correct')
+}
+
+const changeRange = async () => {
+  if (gameStore.value.newCode === null) return
+
+  gameStore.value.range = getNewCodeRange(
+    gameStore.value.code,
+    gameStore.value.range,
+    gameStore.value.newCode,
+  )
+
+  if (gameStore.value.newCode !== gameStore.value.code) {
+    await new Promise((resolve) => setTimeout(resolve, (durationSec + 0.1) * 1000))
+  }
 }
 
 const clearNewCode = () => {
@@ -128,7 +152,8 @@ const closeDialog = () => {
   <div class="game">
     <div class="game__container">
       <div class="game__codeRange">
-        <span>{{ gameStore.range[0] }}</span> ~ <span>{{ gameStore.range[1] }}</span>
+        <span>{{ visibleMin.number.toFixed(0) }}</span> ~
+        <span>{{ visibleMax.number.toFixed(0) }}</span>
       </div>
       <div></div>
       <ul class="game__playerList">
