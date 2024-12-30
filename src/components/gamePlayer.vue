@@ -69,11 +69,18 @@ const clickContinue = () => {
         <InputText type="text" v-model="name" />
       </div>
       <div class="gp__buttons">
-        <Button class="gp__button" variant="outlined" label="Add" @click="clickAddPlayer" />
-        <Button class="gp__button" variant="outlined" label="Clear" @click="clickClearPlayer" />
-        <Button class="gp__button" variant="outlined" label="Shuffle" @click="clickShuffle" />
-        <Button class="gp__button" variant="outlined" label="Start" @click="clickStart" />
-        <Button class="gp__button" variant="outlined" label="Continue" @click="clickContinue" />
+        <Button class="gp__button" variant="outlined" label="新增玩家" @click="clickAddPlayer" />
+        <Button
+          class="gp__button"
+          variant="outlined"
+          label="清除所有玩家"
+          @click="clickClearPlayer"
+        />
+        <Button class="gp__button" variant="outlined" label="打亂玩家順序" @click="clickShuffle" />
+      </div>
+      <div class="gp__buttons">
+        <Button class="gp__button" variant="outlined" label="開始" @click="clickStart" />
+        <Button class="gp__button" variant="outlined" label="繼續" @click="clickContinue" />
       </div>
     </div>
   </div>
@@ -84,6 +91,13 @@ const clickContinue = () => {
   width: 100%;
   height: 100%;
   position: relative;
+
+  :deep(.p-inputtext) {
+    text-align: center;
+    font-weight: bold;
+    font-size: 4rem;
+    width: 24rem;
+  }
 
   &__container {
     position: absolute;
