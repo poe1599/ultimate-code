@@ -28,14 +28,21 @@ const gameModeList = [
 <template>
   <div class="gs">
     <div class="gs__container">
-      <img class="gs__bombImg" src="@/assets/imgs/bomb.png" @dblclick="clickStartGame(true)" />
-      <h1 class="gs__title">Ultimate Code</h1>
-      <Button class="gs__startButton" label="Game Start" @click="clickStartGame(false)" />
+      <h1 class="gs__title">
+        <span>終 極 密 碼</span>
+      </h1>
+      <Button
+        class="gs__startButton"
+        label="遊戲開始"
+        variant="outlined"
+        @click="clickStartGame(false)"
+      />
     </div>
 
     <Button
       class="gs__configButton"
       icon="pi pi-cog"
+      variant="outlined"
       aria-label="game config"
       @click="toggleConfigDialog"
     />
@@ -63,6 +70,7 @@ const gameModeList = [
             <label :for="gameModeOption.label">{{ gameModeOption.label }}</label>
           </li>
         </ul>
+        <Button variant="outlined" label="控制輸入" @click="clickStartGame(true)" />
       </div>
     </Dialog>
   </div>
@@ -73,8 +81,6 @@ const gameModeList = [
   width: 100%;
   height: 100%;
   position: relative;
-  border: 1px solid var(--p-surface-950);
-  background-color: var(--p-surface-950);
   text-align: center;
 
   &__container {
@@ -95,10 +101,33 @@ const gameModeList = [
     text-align: center;
     margin: 0 auto;
     font-size: 6rem;
+    word-spacing: 0.8rem;
+    scale: 1.6 3.6;
+    position: relative;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+
+    &::before {
+      content: '';
+      position: absolute;
+      display: block;
+      width: 120%;
+      height: 2rem;
+      background-color: red;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    span {
+      position: relative;
+    }
   }
 
   &__startButton {
     font-weight: bold;
+    transform: translate(0, 8rem);
   }
 
   &__configButton {
