@@ -193,7 +193,7 @@ const closeDialog = () => {
       modal
       :closable="false"
       dismissableMask
-      :style="{ width: '42rem' }"
+      :style="{ width: '48rem' }"
       @hide="closeDialog"
     >
       <div class="D-dialog" :class="{ [`D-dialog--${dialogMode}`]: true }">
@@ -201,8 +201,8 @@ const closeDialog = () => {
           {{ `${gameStore.survivePlayers[0].name}` }}
           <br />
           <span class="D-dialog__result">
-            <template v-if="dialogMode === 'win'">You Win !</template>
-            <template v-else-if="dialogMode === 'lose'">You Lose !</template>
+            <template v-if="dialogMode === 'win'">恭喜您獲得最終的勝利 !</template>
+            <template v-else-if="dialogMode === 'lose'">淘汰 !</template>
           </span>
         </h2>
       </div>
