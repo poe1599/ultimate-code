@@ -11,6 +11,7 @@ const emit = defineEmits<{
 }>()
 
 const randomColors = shuffle(gameStore.value.playerColors)
+const randomAvatars = shuffle(gameStore.value.playerAvatars)
 
 const name = ref('')
 
@@ -24,6 +25,7 @@ const clickAddPlayer = () => {
     name: name.value,
     id: name.value,
     color: randomColors[gameStore.value.players.length],
+    avatar: randomAvatars[gameStore.value.players.length],
   })
   name.value = ''
 }
@@ -59,6 +61,7 @@ const clickContinue = () => {
             label=""
             class="mr-2"
             size="large"
+            :image="player.avatar"
             :style="`background-color: var(${player.color});`"
             @dblclick="deletePlayer(player.id)"
           />

@@ -164,7 +164,11 @@ const closeDialog = () => {
       <div></div>
       <ul class="game__playerList">
         <li v-for="player in currentSurvivePlayers" :data-is-play="player.isPlaying">
-          <Avatar size="large" :style="`background-color: var(${player.color});`" />
+          <Avatar
+            :image="player.avatar"
+            size="large"
+            :style="`background-color: var(${player.color});`"
+          />
           <span>{{ player.name }}</span>
         </li>
       </ul>
