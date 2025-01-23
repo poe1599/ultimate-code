@@ -13,9 +13,7 @@ import Avatar from 'primevue/avatar'
 import Dialog from 'primevue/dialog'
 import gsap from 'gsap'
 
-const props = withDefaults(defineProps<{ isControlMode?: boolean }>(), {
-  isControlMode: false,
-})
+const props = withDefaults(defineProps<{}>(), {})
 
 const emit = defineEmits<{
   end: []
@@ -74,7 +72,7 @@ const sendNewCode = async () => {
     return
   }
 
-  chanel.postMessage('correct')
+  whenCodeCorrect()
 }
 
 const changeRange = async () => {
@@ -96,18 +94,8 @@ const clearNewCode = () => {
 }
 
 onMounted(() => {
-  if (props.isControlMode) return
   initUltimateCode()
 })
-
-const chanel = new BroadcastChannel('ultimateCode')
-
-chanel.onmessage = (event) => {
-  if (event.data !== 'correct') return
-  if (props.isControlMode) return
-  if (gameStore.value.newCode !== gameStore.value.code) return
-  whenCodeCorrect()
-}
 
 const switchToNextPlayer = () => {
   const lastPlayer = gameStore.value.survivePlayers.shift()
@@ -181,7 +169,7 @@ const closeDialog = () => {
           :max="gameStore.range[1]"
           fluid
         />
-        <div v-if="props.isControlMode">
+        <div>
           <Button
             class="game__sendButton"
             variant="outlined"

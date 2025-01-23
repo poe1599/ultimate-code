@@ -11,11 +11,8 @@ import GamePlayer from '~me/components/gamePlayer.vue'
  */
 const pageCode = ref<'01' | '02' | '03'>('01')
 
-const isControlMode = ref(false)
-
-const toSetPlayers = (e: boolean) => {
-  isControlMode.value = e
-  pageCode.value = isControlMode.value ? '03' : '02'
+const toSetPlayers = () => {
+  pageCode.value = '02'
 }
 
 const toStartGame = () => {
@@ -31,7 +28,7 @@ const toInit = () => {
   <div class="layout">
     <GameStart v-if="pageCode === '01'" @start="toSetPlayers" />
     <GamePlayer v-else-if="pageCode === '02'" @next="toStartGame" />
-    <UltimateCode v-else-if="pageCode === '03'" :isControlMode="isControlMode" @end="toInit" />
+    <UltimateCode v-else-if="pageCode === '03'" @end="toInit" />
   </div>
 </template>
 

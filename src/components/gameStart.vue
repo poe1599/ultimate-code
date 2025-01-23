@@ -6,11 +6,11 @@ import { ref } from 'vue'
 import gameStore from '~me/stores/gameStore'
 
 const emit = defineEmits<{
-  start: [isControlMode: boolean]
+  start: []
 }>()
 
-const clickStartGame = (isControlMode: boolean) => {
-  emit('start', isControlMode)
+const clickStartGame = () => {
+  emit('start')
 }
 
 const isGameOpenConfig = ref(false)
@@ -70,7 +70,6 @@ const gameModeList = [
             <label :for="gameModeOption.label">{{ gameModeOption.label }}</label>
           </li>
         </ul>
-        <Button variant="outlined" label="控制輸入" @click="clickStartGame(true)" />
       </div>
     </Dialog>
   </div>
