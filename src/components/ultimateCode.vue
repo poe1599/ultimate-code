@@ -13,8 +13,6 @@ import Avatar from 'primevue/avatar'
 import Dialog from 'primevue/dialog'
 import gsap from 'gsap'
 
-const props = withDefaults(defineProps<{}>(), {})
-
 const emit = defineEmits<{
   end: []
 }>()

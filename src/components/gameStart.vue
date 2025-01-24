@@ -35,7 +35,7 @@ const gameModeList = [
         class="gs__startButton"
         label="遊戲開始"
         variant="outlined"
-        @click="clickStartGame(false)"
+        @click="clickStartGame"
       />
     </div>
 
